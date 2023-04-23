@@ -37,8 +37,8 @@ var search = document.createElement('input');
 search.setAttribute('type','text');
 search.setAttribute('placeholder','Buscar Por Nome');
 search.classList.add('search');
-search.addEventListener('keypress', function (){
-    if(event.key == 'Enter'){
+search.addEventListener('keypress', function (e){
+    if(e.key == 'Enter'){
         att_pokemon(search.value);
     }
 });
@@ -53,6 +53,7 @@ div_button.appendChild(button_next);
 
 async function req_pokemon(pokemon){
     let url = 'https://pokeapi.co/api/v2/pokemon/';
+    //faz a requisição na api com a url + o pokemon pesquisado
     let result = await fetch(url+pokemon);
     if(result.status == 200){
         var dados = result.json();
@@ -77,13 +78,13 @@ async function att_pokemon(pokemon){
         search.value ='';
         add_pokemon(obj);
     }else{
+        //caso não encontrar o pokemon pesquisado
         let obj = {name: 'Não Achei :(', img: 'img/not_found.png', id:0};
         add_pokemon(obj);
     }
 }
 
 function add_pokemon(obj){
-    console.log("OBJ",obj);
     poke_id = obj.id;
     pokemon.src = obj.img;
     pokemon_name.innerText = obj.id + " - " +obj.name;
